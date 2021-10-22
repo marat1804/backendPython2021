@@ -16,7 +16,7 @@ class CustomMeta(type):
                 custom_attributes[key] = value
         return super().__new__(cls, class_name, parents, custom_attributes)
 
-    def __call__(self, *args, **kwargs):
+    def __call__(cls, *args, **kwargs):
         ready_class = super().__call__(*args, **kwargs)
         custom_attributes = {}
         for key, value in ready_class.__dict__.items():
