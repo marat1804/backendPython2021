@@ -1,6 +1,14 @@
+"""
+Custom list class with overloading of arithmetic and logical operators
+"""
+
+
 class CustomList(list):
+    """
+    Custom List class with +,-,<,<=,==,!=,>,>= operators
+    """
     def __init__(self, *args):
-        super(CustomList, self).__init__(args)
+        super().__init__(args)
 
     def __add__(self, other):
         result = CustomList()
