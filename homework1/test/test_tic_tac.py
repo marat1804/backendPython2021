@@ -1,10 +1,9 @@
 """
 Test for Tic Tac Toe Game
 """
-
+import pytest
 from homework1.tic_tac import TicTacGame, PlayerWinException, IndexIsBusyException, \
     WrongInputException, NotDigitInputException
-import pytest
 
 
 class TestTicTac:
