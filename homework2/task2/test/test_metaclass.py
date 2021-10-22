@@ -1,6 +1,7 @@
 """
 Tests for Custom Metaclass
 """
+from dataclasses import dataclass
 from homework2.task2.custom_meta import CustomMeta
 import pytest
 
@@ -14,7 +15,11 @@ class TestTicTac:
         """
         Test for custom value in class
         """
+        @dataclass
         class Test1(metaclass=CustomMeta):
+            """
+            Class with x and p variables
+            """
             x = 10
             p = 42
 
@@ -33,11 +38,17 @@ class TestTicTac:
         """
         Test for custom methods names
         """
-
+        @dataclass
         class Test2(metaclass=CustomMeta):
+            """
+            Class with x variable and size method
+            """
             x = 42
 
             def size(self):
+                """
+                :return: x * 10
+                """
                 return self.custom_x * 10
 
         test_class = Test2()
@@ -54,14 +65,20 @@ class TestTicTac:
         """
         Test for custom value in init
         """
-
+        @dataclass
         class Test3(metaclass=CustomMeta):
+            """
+            Class with x and arg variables
+            """
             x = 10
 
             def __init__(self, arg=42):
                 self.arg = arg
 
             def size(self):
+                """
+                :return: x * arg
+                """
                 return self.custom_x * self.custom_arg
 
         test_class = Test3()
@@ -84,8 +101,11 @@ class TestTicTac:
         """
         Test for custom name with "custom_"
         """
-
+        @dataclass
         class Test4(metaclass=CustomMeta):
+            """
+            Class with custom variable
+            """
             custom = 10
 
         test_class = Test4()
