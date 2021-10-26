@@ -108,7 +108,7 @@ class TicTacGame:
         if not user_input.isdigit():
             raise NotDigitInputException
         index = int(user_input)
-        if index > 9 or index < 0:
+        if index > 8 or index < 0:
             raise WrongInputException
         if self.board[index] != ' ':
             raise IndexIsBusyException
