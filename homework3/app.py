@@ -8,8 +8,8 @@ from datetime import datetime
 
 def app(environ, start_response):
     """
-	Simple JSON sender
-	"""
+    Simple JSON sender
+    """
     url = environ['RAW_URI']
     time = datetime.now().strftime("%H:%M:%S")
     data_dict = {
