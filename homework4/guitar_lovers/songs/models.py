@@ -19,6 +19,11 @@ class Author(models.Model):
         verbose_name='Звукозаписывающий лейбл'
     )
 
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Исполнитель'
+        verbose_name_plural = 'Исполнители'
+
 
 class Genre(models.Model):
     name = models.CharField(
@@ -26,6 +31,11 @@ class Genre(models.Model):
         unique=True,
         verbose_name='Жанр'
     )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Жанр'
+        verbose_name_plural = 'Жанры'
 
 
 class Song(models.Model):
@@ -40,7 +50,8 @@ class Song(models.Model):
     )
     text = models.CharField(
         max_length=1024,
-        verbose_name='Текст песни'
+        verbose_name='Текст песни',
+        null=True
     )
     genre_id = models.ForeignKey(
         Genre,
@@ -48,8 +59,14 @@ class Song(models.Model):
         on_delete=models.SET_NULL,
         related_name='songs'
     )
-    author_id = models.ManyToManyField(
+    author = models.ForeignKey(
         Author,
+        on_delete=models.CASCADE,
         related_name='songs'
     )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Песня'
+        verbose_name_plural = 'Песни'
 

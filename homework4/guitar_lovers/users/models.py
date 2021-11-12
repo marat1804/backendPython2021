@@ -23,3 +23,8 @@ class User(AbstractUser):
         max_length=100,
         blank=True
     )
+
+    class Meta:
+        ordering = ['username']
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
