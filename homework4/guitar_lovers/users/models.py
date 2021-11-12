@@ -24,6 +24,9 @@ class User(AbstractUser):
         blank=True
     )
 
+    def __str__(self):
+        return self.username
+
     class Meta:
         ordering = ['username']
         verbose_name = 'Пользователь'

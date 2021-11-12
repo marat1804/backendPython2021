@@ -57,12 +57,14 @@ class Song(models.Model):
         Genre,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='songs'
+        related_name='songs',
+        verbose_name='Id жанра'
     )
     author = models.ForeignKey(
         Author,
         on_delete=models.CASCADE,
-        related_name='songs'
+        related_name='songs',
+        verbose_name='Id исполнителя'
     )
 
     class Meta:
