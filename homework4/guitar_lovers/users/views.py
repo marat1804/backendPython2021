@@ -24,21 +24,20 @@ def user_list(request):
          ]})
 
 
-names = ['John', 'Mike', 'Max', 'Lewis']
-surnames = ['Green', 'Verstappen', 'Leclerc', 'Norris']
-
-
 @require_GET
 def user_info(request, user_id):
     """
     View for getting user info
     """
-    return JsonResponse({
-        'user_id': user_id,
-        'username': 'unique_username_' + str(user_id),
-        'first_name': surnames[user_id % len(surnames)],
-        'second_name': names[user_id % len(names)]
-    })
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return HttpResponseNotFound(f'Not found user with id {user_id}')
+    data = {
+        'id': user.id,
+        'username': user.username
+    }
+    return JsonResponse(data)
 
 
 @require_POST

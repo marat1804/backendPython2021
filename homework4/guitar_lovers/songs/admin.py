@@ -4,10 +4,12 @@ from .models import Author, Genre, Song
 
 class SongAdmin(admin.ModelAdmin):
     list_display = ('name', 'genre_id', 'author_id')
+    list_filter = ['date']
 
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('name', 'country')
+    list_filter = ['record_label']
 
 
 class GenreAdmin(admin.ModelAdmin):
