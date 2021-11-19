@@ -1,3 +1,5 @@
+from datetime import datetime
+from django.utils import timezone
 from django.db import models
 
 DEFAULT_LENGTH = 64
@@ -44,9 +46,9 @@ class Song(models.Model):
         verbose_name='Название песни'
     )
     date = models.DateField(
-        auto_now_add=True,
         verbose_name='Дата выхода',
-        null=True
+        null=True,
+        default=timezone.now().date()
     )
     text = models.CharField(
         max_length=1024,

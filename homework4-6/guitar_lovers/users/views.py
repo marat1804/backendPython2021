@@ -1,111 +1,46 @@
 """
 File describing users app views
 """
-import json
-import random
-
-from django.http import JsonResponse
-from django.views.decorators.http import require_GET, require_POST, require_http_methods
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from .serializers import UserSerializer
 from .models import User
-from django.http import HttpResponseNotFound, HttpResponseBadRequest
 
 
-@require_GET
-def user_list(request):
-    """
-    View for getting user list
-    """
-    return JsonResponse(
-        {'users':
-         [
-             {'id': u.id,
-              'username': u.username}
-             for u in User.objects.all()
-         ]})
+class UserViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
 
+    def retrieve(self, request, pk=None):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
 
-@require_GET
-def user_info(request, user_id):
-    """
-    View for getting user info
-    """
-    try:
-        user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return HttpResponseNotFound(f'Not found user with id {user_id}')
-    data = {
-        'id': user.id,
-        'username': user.username
-    }
-    return JsonResponse(data)
+    def create(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
+    def partial_update(self, request, pk=None):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = UserSerializer(
+            instance=user,
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
-@require_POST
-def register_user(request):
-    """
-    View for user register
-    """
-    form = json.loads(request.body)
-    user = User()
-    if 'first_name' not in form:
-        return HttpResponseBadRequest("Field first_name is required")
-    user.name = form.get('first_name')
-    if 'last_name' not in form:
-        return HttpResponseBadRequest("Field last_name is required")
-    user.last_name = form.get('last_name')
-    if 'username' not in form:
-        return HttpResponseBadRequest("Field username is required")
-    user.username = form.get('username')
-    if 'email' not in form:
-        return HttpResponseBadRequest("Field email is required")
-    user.email = form.get('email')
-    if 'bio' in form:
-        user.bio = form.get('bio')
-    if 'country' in form:
-        user.country = form.get('country')
-    if 'city' in form:
-        user.city = form.get('city')
-    if 'guitar' in form:
-        user.guitar = form.get('guitar')
-    user.save()
-    return JsonResponse({'id': user.id})
-
-
-@require_http_methods(['PATCH'])
-def update_user(request, user_id):
-    """
-    View for updating a user
-    """
-    try:
-        user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return HttpResponseNotFound('User not found')
-    data = json.loads(request.body)
-    if 'first_name' in data:
-        user.first_name = data['first_name']
-    if 'last_name' in data:
-        user.last_name = data['last_name']
-    if 'bio' in data:
-        user.bio = data['bio']
-    if 'country' in data:
-        user.country = data['country']
-    if 'city' in data:
-        user.city = data['city']
-    if 'last_name' in data:
-        user.guitar = data['guitar']
-    user.save()
-    return JsonResponse({'updated': user_id})
-
-
-@require_http_methods(['DELETE'])
-def delete_user(request, user_id):
-    """
-    View for deleting user
-    """
-    try:
-        User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return HttpResponseNotFound('User not found')
-
-    User.objects.filter(id=user_id).delete()
-    return JsonResponse({'deleted': user_id})
+    def destroy(self, request, pk=None):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        user_id = user.id
+        user.delete()
+        return Response(data={'id': user_id}, status=status.HTTP_200_OK)
