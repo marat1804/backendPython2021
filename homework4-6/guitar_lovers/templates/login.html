@@ -1,0 +1,15 @@
+{% load static %}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Guitar Club</title>
+  </head>
+<body>
+<button class="facebook_but">
+    <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+</button>
+<br>
+<a href="/" class="on_main">На главную</a>
+</body>
+</html>

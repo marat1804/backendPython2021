@@ -2,12 +2,17 @@
 File describing users app views
 """
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from application.views import login_required
 from .serializers import UserSerializer
 from .models import User
 
 
+@method_decorator(login_required, name='dispatch')
 class UserViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = User.objects.all()
@@ -44,3 +49,8 @@ class UserViewSet(viewsets.ViewSet):
         user_id = user.id
         user.delete()
         return Response(data={'id': user_id}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'], name='Get My Info')
+    def info(self, request, *args, **kwargs):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)

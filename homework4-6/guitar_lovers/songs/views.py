@@ -2,13 +2,18 @@
 File describing views for songs app
 """
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+
+from application.views import login_required
 from .models import Song, Author, Genre
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .serializers import SongSerializer, AuthorSerializer, GenreSerializer
 
 
+@method_decorator(login_required, name='dispatch')
 class SongViewSet(viewsets.ViewSet):
+
     def list(self, request):
         queryset = Song.objects.all()
         serializer = SongSerializer(queryset, many=True)
@@ -46,6 +51,7 @@ class SongViewSet(viewsets.ViewSet):
         return Response(data={'id': song_id}, status=status.HTTP_200_OK)
 
 
+@method_decorator(login_required, name='dispatch')
 class AuthorViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = Author.objects.all()
@@ -84,6 +90,7 @@ class AuthorViewSet(viewsets.ViewSet):
         return Response(data={'id': author_id}, status=status.HTTP_200_OK)
 
 
+@method_decorator(login_required, name='dispatch')
 class GenreViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = Genre.objects.all()

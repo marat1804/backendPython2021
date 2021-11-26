@@ -9,7 +9,15 @@
             <h1>Guitar's lovers club</h1>
         </header>
         <h2>This is a community where all guitar players can exchange with songs chords</h2>
-        <h3><a href="/songs/">Songs</a></h3>
+        <h3><a href="/songs/songs">Songs</a></h3>
+        <h3><a href="/songs/authors">Authors</a></h3>
+        <h3><a href="/songs/genres">Genres</a></h3>
         <h3><a href="/users/">Users</a></h3>
+    <main>
+        <p> Добро пожаловать, {{ name }} {{ surname }}</p>
+    <p>
+        <button class="beauty_but"><a href="{% url 'logout' %}?next=/">Выход</a></button>
+    </p>
+</main>
     </body>
 </html>
