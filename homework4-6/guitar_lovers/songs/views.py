@@ -9,6 +9,7 @@ from .models import Song, Author, Genre
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .serializers import SongSerializer, AuthorSerializer, GenreSerializer
+from .tasks import new_song
 
 
 @method_decorator(login_required, name='dispatch')
@@ -29,6 +30,11 @@ class SongViewSet(viewsets.ViewSet):
         serializer = SongSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        new_song.delay(
+            song_artist=serializer.data['author'],
+            song_title=serializer.data['name'],
+            who=self.request.user.username
+        )
         return Response(serializer.data)
 
     def partial_update(self, request, pk=None):
