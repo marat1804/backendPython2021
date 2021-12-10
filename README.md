@@ -1,6 +1,6 @@
 # backendPython2021
-![Python](https://img.shields.io/badge/-Python-8fcfd1?style=plastic&logo=Python)
-![Django](https://img.shields.io/badge/-Django-8fcfd1?style=plastic&logo=Django)
+![Python](https://img.shields.io/badge/-Python-black?style=plastic&logo=Python)
+![Django](https://img.shields.io/badge/-Django-black?style=plastic&logo=Django)
 
 This is my repository for VK Education course on Python-Backend Autumn 2021.
 
