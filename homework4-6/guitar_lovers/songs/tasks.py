@@ -5,7 +5,7 @@ from celery import shared_task
 from application import settings
 
 
-@shared_task()
+@shared_task
 def new_song(song_artist, song_title, who):
     send_mail(
         subject='SongDB notification',
