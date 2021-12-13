@@ -26,28 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# celery conf
-CELERY_TIMEZONE = "Europe/Moscow"
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_IMPORTS = (
-    'songs.tasks',
-)
-CELERY_LOG_FILE = 'celery.log'
-
-CELERY_BEAT_SCHEDULE = {
-    'count_task': {
-        'task': 'songs.tasks.count_task',
-        'schedule': 15,
-    },
-}
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-
 
 # Application definition
 
@@ -62,9 +40,6 @@ INSTALLED_APPS = [
     'social_django',
     'users',
     'songs',
-    "sslserver",
-    'django_celery_results',
-    'celery',
 ]
 
 MIDDLEWARE = [
